@@ -112,30 +112,6 @@ class DatabaseService {
     });
   }
 
-  List<EventSubscribersData> _subscribersListFromSnapsht(QuerySnapshot snapshot) {
-    return snapshot.documents.map((doc) {
-      return EventSubscribersData(
-        event_id: doc.data['event_id'] ?? null,
-        user_id: doc.data['user_id'] ?? null,
-
-      );
-    }).toList();
-  }
-
-  Stream<List<EventSubscribersData>> eventSubscribers(String event_id) {
-    return Firestore.instance.collection('eventSubscribers').where(
-        "event_id", isEqualTo: event_id).snapshots()
-        .map(_subscribersListFromSnapsht);
-  }
-
-
-  Stream<List<EventSubscribersData>> myEvents(String user_id) {
-    return Firestore.instance.collection('eventSubscribers').where(
-        "user_id", isEqualTo: user_id).snapshots()
-        .map(_subscribersListFromSnapsht);
-  }
-
-
-}
+  
 
 
