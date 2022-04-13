@@ -21,17 +21,23 @@ class _MyEventsListsState extends State<MyEventsLists> {
   Widget build(BuildContext context) {
 
     // final users= Provider.of<List<UserData>>(context);
+    final user = Provider.of<MyUser?>(context);
     final my_events= Provider.of<List<EventSubscribersData>>(context);
     return ListView.builder(
       itemBuilder:(context, index){
-
+      print(my_events[index].rejected);
+        print(my_events[index].accepted);
         return MultiProvider(
           providers: [
             StreamProvider<List<EventData>>.value(
               value:DatabaseService().eventsById(my_events[index].event_id!),
               initialData: [],),
+            StreamProvider<List<UserData>>.value(
+              initialData: [],
+              value: DatabaseService().usersById(user!.uid),
+            ),
           ],
-          child: EventsTile(),
+          child: EventsTile(accepted: my_events[index].accepted!, id: my_events[index].subscription_id!, rejected:  my_events[index].rejected!,),
         );
       },
       itemCount: my_events.length,
