@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       initialData: MyUser.initialData(),
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: Wrapper()
+          home: WelcomeScreen()
       ),
     );
   }
