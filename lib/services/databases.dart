@@ -106,16 +106,27 @@ class DatabaseService {
 //Subsribers information
 
   Future AddSubscribers(String user_id, String event_id) async {
-    return await eventSubscribersCollection.document(uid).setData({
+    var uuid = Uuid();
+
+    // Generate a v1 (time-based) id
+    var subscription_id = uuid.v1();
+    return await eventSubscribersCollection.document(subscription_id).setData({
+      "subscription_id": subscription_id,
       "user_id": user_id,
       "event_id": event_id,
+      "accepted": false,
+      "rejected": false,
     });
   }
+
   List<EventSubscribersData> _subscribersListFromSnapsht(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc) {
       return EventSubscribersData(
+        subscription_id: doc.data['subscription_id'] ?? null,
         event_id: doc.data['event_id'] ?? null,
         user_id: doc.data['user_id'] ?? null,
+        accepted: doc.data['accepted'] ?? false,
+        rejected: doc.data['rejected'] ?? false,
 
       );
     }).toList();
@@ -127,6 +138,11 @@ class DatabaseService {
         .map(_subscribersListFromSnapsht);
   }
 
+  Stream<List<EventSubscribersData>> eventCheck(String event_id, String uid) {
+    return Firestore.instance.collection('eventSubscribers').where(
+        "event_id", isEqualTo: event_id, ).snapshots()
+        .map(_subscribersListFromSnapsht);
+  }
 
   Stream<List<EventSubscribersData>> myEvents(String user_id) {
     return Firestore.instance.collection('eventSubscribers').where(
@@ -136,7 +152,3 @@ class DatabaseService {
 
 
 }
-
-  
-
-
