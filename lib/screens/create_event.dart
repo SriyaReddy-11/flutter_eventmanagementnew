@@ -38,12 +38,13 @@ class _CreateEventState extends State<CreateEvent> {
   final eventnameController = TextEditingController();
   final descriptionController = TextEditingController();
 
-  late DateTime date;
+  DateTime date = DateTime.now();
 
   bool loading = false;
   final picker = ImagePicker();
   String? imgString;
   Future<File>? imgFile;
+  String error = "";
 
   Future getImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -158,11 +159,11 @@ class _CreateEventState extends State<CreateEvent> {
 
                       Row(
                         children: [
-                          Text("Event Date:", style: TextStyle(color: Colors.white, fontSize: 15),),
+                          //Text("Event Date:", style: TextStyle(color: Colors.white, fontSize: 15),),
                           SizedBox(width: 10,),
                           ElevatedButton(
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0, right: 8),
+                              padding: const EdgeInsets.only(left: 6.0, right: 6),
                               child: Text(date.toString(), style: TextStyle(color: Colors.black),),
                             ),
                             onPressed: () {
@@ -182,7 +183,7 @@ class _CreateEventState extends State<CreateEvent> {
                             },
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.white,
-                                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 5),
                                 textStyle: TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
@@ -224,6 +225,7 @@ class _CreateEventState extends State<CreateEvent> {
                       //   ],
                       // ),
                       SizedBox(height: 20,),
+                      loading ? CircularProgressIndicator() :
                       ElevatedButton(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8.0, right: 8),
@@ -247,15 +249,24 @@ class _CreateEventState extends State<CreateEvent> {
                                 imageUrl = await snapshot1.ref.getDownloadURL();
                                 try{
                                   print("adding event to database....");
-                                  await _dbService.AddEvents(eventnameController.text, descriptionController.text, imageUrl, "events", "60", "484", date);
+                                  await _dbService.AddEvents(eventnameController.text, descriptionController.text, imageUrl, "events", "60", "484", date).then((value) {
+                                    setState(() {
+                                      loading = false;
+
+                                    });
+                                    Navigator.pop(context);
+                                  });
 
                                 }catch(e){
+                                  setState(() {
+                                    loading = false;
+                                    error = e.toString();
+                                  });
                                   print("we had an error");
                                   print(e.toString());
+
                                 }
-                                setState(() {
-                                  loading = false;
-                                });
+
                               });
                             }
                           }
