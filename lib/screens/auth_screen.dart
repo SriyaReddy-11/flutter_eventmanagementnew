@@ -1,4 +1,3 @@
-
 import 'package:eventsmangers2/screens/customer_login.dart';
 import 'package:eventsmangers2/screens/organizer_login.dart';
 import 'package:eventsmangers2/screens/register.dart';
@@ -20,7 +19,7 @@ class _AuthScreensState extends State<AuthScreens> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.indigo,
+      backgroundColor: Colors.purple[900],
       appBar: AppBar(
         title: Text('Login'),
       ),
@@ -32,6 +31,8 @@ class _AuthScreensState extends State<AuthScreens> {
           child: Column(
 
             children: [
+              Image.asset("assets/images/welcome.png", height: 150, width: 150,),
+              SizedBox(height: 20,),
               show_customer? Text('Customer Login', style: TextStyle(fontSize: 20,color: Colors.white),):
                     Text('Event Organizer', style: TextStyle(fontSize: 20,color: Colors.white),),
               Padding(
@@ -42,11 +43,11 @@ class _AuthScreensState extends State<AuthScreens> {
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(
                           elevation: 6,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
 
                           backgroundColor: show_customer? Colors.blueAccent: Colors.lightBlue,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20))),
+                              borderRadius: BorderRadius.circular(0))),
                       child: show_customer? const Text(
                         'Customer',
                         style: TextStyle(fontSize: 24, color: Colors.white),
@@ -62,10 +63,10 @@ class _AuthScreensState extends State<AuthScreens> {
                     OutlinedButton(
                       style: OutlinedButton.styleFrom(
                           elevation: 6,
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                           backgroundColor: show_customer? Colors.blueAccent: Colors.lightBlue,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20))),
+                              borderRadius: BorderRadius.circular(0))),
                       child: show_customer? const Text(
                         'Organizer',
                         style: TextStyle(fontSize: 24, color: Colors.black),
