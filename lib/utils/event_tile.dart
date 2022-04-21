@@ -116,4 +116,3 @@ class _EventsTileState extends State<EventsTile> {
 
   }
 }
-
