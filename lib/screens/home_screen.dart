@@ -1,4 +1,4 @@
-'package:eventsmangers2/models/eventsData.dart';
+import 'package:eventsmangers2/models/eventsData.dart';
 import 'package:eventsmangers2/models/user.dart';
 import 'package:eventsmangers2/models/userData.dart';
 import 'package:eventsmangers2/services/auth.dart';
