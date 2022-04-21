@@ -1,7 +1,12 @@
 
+import 'package:eventsmangers2/main.dart';
 import 'package:eventsmangers2/screens/register.dart';
 import 'package:eventsmangers2/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
+
+import 'Myapp.dart';
+
 
 class CustomerLoginScreen extends StatefulWidget {
   @override
@@ -20,6 +25,8 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
   String message = '';
   bool loading = false;
   final AuthService _auth = AuthService();
+  static final FacebookLogin facebookSignIn = new FacebookLogin();
+
 
 
 
@@ -49,6 +56,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
               child: TextFormField(
                 validator: (String? val) =>
                 val!.isEmpty ? 'Please enter email' : null,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(labelText: "Customer Email"),
                 controller: emailController,
               ),
@@ -60,6 +68,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
               child: TextFormField(
                 validator: (String? val) =>
                 val!.isEmpty ? 'Please enter password' : null,
+                style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(labelText: "Customer Password"),
                 controller: passwordController,
                 obscureText: true,
@@ -80,8 +89,7 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
               margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blueAccent,
-                  side: BorderSide(width: 3, color: Colors.blueAccent),
+                  primary: Colors.blue,
                   elevation: 3,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0.0)),
@@ -130,36 +138,6 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
               child: const Text(
-                "-----OR-----",
-                style: TextStyle(fontSize: 14, color: Colors.white, ),
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blueAccent,
-                  side: BorderSide(width: 3, color: Colors.blueAccent),
-                  elevation: 3,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0.0)),
-                  padding: const EdgeInsets.all(0),
-                ),
-                onPressed: () async {
-                },
-
-                child: Text(
-                  "Sign in with Facebook",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-                ),
-              ),
-            ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-              child: const Text(
                 "Forgot your password?",
                 style: TextStyle(fontSize: 12, color: Colors.white, ),
               ),
@@ -171,10 +149,48 @@ class _CustomerLoginScreenState extends State<CustomerLoginScreen> {
               child: Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                child: const Text(
-                  "Register",
-                  style: TextStyle(fontSize: 15, color: Colors.white),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0.0)),
+                    padding: const EdgeInsets.all(0),
+                  ),
+                  onPressed: () async {Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegisterScreen()));},
+                  child: Text(
+                    "Register",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                  ),
                 ),
+              ),
+            ),
+            Text(
+              "------OR------",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            SizedBox(height: 15,),
+            Container(
+              height: 50,
+              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: RaisedButton(
+                textColor: Colors.white,
+                color: Colors.blue,
+                child: Text('Login With Facebook',
+                    style: TextStyle(fontFamily: 'Aleo', fontSize: 16,color: Colors.black)),
+                onPressed: () {
+                  final plugin = FacebookLogin(debug: true);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (Context) => MyApp1(
+                        plugin: plugin,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
             // Container(
